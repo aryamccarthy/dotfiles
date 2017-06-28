@@ -1,0 +1,9 @@
+set number        " Line numbers
+syntax on         " Syntax highlighting
+set tabstop=4     " 4-space tabs
+set shiftwidth=4
+set expandtab     " Tabs are spaces
+set autoindent    " For source code
+set incsearch     " Search as you type
+set hlsearch      " Highlight as you search
+set showmatch     " Highlight matching [({})]
