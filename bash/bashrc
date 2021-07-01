@@ -24,11 +24,25 @@ fi
 
 # fancy prompt
 case "$TERM" in
-   xterm*)
-     PSSUF='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PSSUF"
-    ;;
-   *)
+    xterm*|screen*)
+        case "$HOSTNAME" in
+            MB*|mb*)
+                MY_PROMPT_COLOR="35"  # Magenta
+            ;;
+            *.clsp.jhu.edu)
+                MY_PROMPT_COLOR="36"  # Cyan
+            ;;
+            a??|b??|c??)
+                MY_PROMPT_COLOR="32"  # Green
+            ;;
+            *)
+                MY_PROMPT_COLOR="31"  # Red
+            ;;
+        esac
+        PSSUF="\[\033[01;${MY_PROMPT_COLOR}m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PSSUF"
+        ;;
+    *)
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     ;;
 esac
@@ -49,10 +63,6 @@ function lookfor() {
 }
 export -f lookfor
 
-# Haskell and Prolog extensions from Edinburgh
-export PATH=$HOME/Library/Haskell/bin:$PATH
-export PATH="/Applications/SWI-Prolog.app/Contents/MacOS:${PATH}"
-
 # added by Anaconda3 4.2.0 installer
 export PATH="/Users/Arya/anaconda/bin:$PATH"
 
@@ -65,4 +75,3 @@ export PATH=~/amplide.macosx64:$PATH
 
 EDITOR="subl"; export EDITOR
 VISUAL="$EDITOR"; export VISUAL  #even better
-
