@@ -26,16 +26,16 @@ fi
 case "$TERM" in
     xterm*|screen*)
         case "$HOSTNAME" in
-            MB*|mb*)
+            *.local)  # Your laptop
                 MY_PROMPT_COLOR="35"  # Magenta
             ;;
-            *.clsp.jhu.edu)
+            *.clsp.jhu.edu)  # Wired CLSP Desktop
                 MY_PROMPT_COLOR="36"  # Cyan
             ;;
-            a??|b??|c??)
+            a??|b??|c??)  # The grid - work nodes only
                 MY_PROMPT_COLOR="32"  # Green
             ;;
-            *)
+            *)  # Nodes like login - reminder to NOT USE THESE
                 MY_PROMPT_COLOR="31"  # Red
             ;;
         esac
@@ -49,10 +49,14 @@ esac
 
 # Put any local aliases or settings below this line.
 
-# Colored ls; not portable to linux.
+# Colored ls; works on Linux and Mac.
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-alias ls='ls -GFh'
+if [ "$(uname)" == "Darwin" ]; then  # It's a Mac.
+    alias ls='ls -GFh'
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    alias ls='ls -Fh --color'
+fi
 
 # Utility for finding a variable, etc. in the current folder.
 # 
